@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://bu7cbxcxfm3lv"]
+
+[ext_resource type="Script" uid="uid://cmx1gyhbiktda" path="res://ability_pickup.gd" id="1_el03a"]
+[ext_resource type="Texture2D" uid="uid://c1mauw6qwmhx6" path="res://assets/gia_fatti/pistolah.png" id="1_gkmgq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_el03a"]
+size = Vector2(20, 27)
+
+[node name="AbilityPickpu" type="Area2D" unique_id=1644292294]
+script = ExtResource("1_el03a")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=433514304]
+texture = ExtResource("1_gkmgq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1627604181]
+position = Vector2(2, 0.5)
+shape = SubResource("RectangleShape2D_el03a")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

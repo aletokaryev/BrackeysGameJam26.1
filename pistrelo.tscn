@@ -1,0 +1,60 @@
+[gd_scene format=3 uid="uid://c3osforvn5f3l"]
+
+[ext_resource type="Script" uid="uid://ccaev2b7pq7gv" path="res://pistrelo.gd" id="1_4mj3w"]
+[ext_resource type="Texture2D" uid="uid://cs6vr8tocqaox" path="res://assets/gia_fatti/PISTRELO-Sheet.png" id="1_vcje4"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4mj3w"]
+radius = 203.35437
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6uiyg"]
+atlas = ExtResource("1_vcje4")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_885sc"]
+atlas = ExtResource("1_vcje4")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jytvg"]
+atlas = ExtResource("1_vcje4")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4mj3w"]
+atlas = ExtResource("1_vcje4")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_adray"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6uiyg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_885sc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jytvg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4mj3w")
+}],
+"loop": true,
+"name": &"ali",
+"speed": 8.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_snoku"]
+
+[node name="PISTRELO" type="CharacterBody2D" unique_id=1291906946]
+script = ExtResource("1_4mj3w")
+
+[node name="DetectionArea" type="Area2D" parent="." unique_id=222430813]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=2042874285]
+shape = SubResource("CircleShape2D_4mj3w")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1457818103]
+sprite_frames = SubResource("SpriteFrames_adray")
+animation = &"ali"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=715784495]
+shape = SubResource("CircleShape2D_snoku")

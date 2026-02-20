@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://dmbytucjymn1d"]
+
+[ext_resource type="Script" uid="uid://baxswtnpgfsjm" path="res://shiftable_object.gd" id="1_ce44h"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jqu7v"]
+
+[node name="ShiftableObject" type="Node2D" unique_id=1294844960]
+script = ExtResource("1_ce44h")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1487220900]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1846239749]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=994979577]
+shape = SubResource("RectangleShape2D_jqu7v")

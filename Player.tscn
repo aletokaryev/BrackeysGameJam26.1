@@ -1,24 +1,85 @@
 [gd_scene format=3 uid="uid://333bmxrkjias"]
 
 [ext_resource type="Script" uid="uid://bta3pr7cm0gqj" path="res://player.gd" id="1_xhfnw"]
+[ext_resource type="PackedScene" uid="uid://d3rboxybahox3" path="res://proiettile.tscn" id="2_kne1u"]
+[ext_resource type="Texture2D" uid="uid://b6671acs2og2o" path="res://assets/Movimento(1).png" id="3_kne1u"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_0rwas"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_kne1u"]
+atlas = ExtResource("3_kne1u")
+region = Rect2(0, 0, 32, 64)
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xhfnw"]
-radius = 5.0
-height = 20.0
+[sub_resource type="AtlasTexture" id="AtlasTexture_e80uo"]
+atlas = ExtResource("3_kne1u")
+region = Rect2(0, 0, 32, 64)
 
-[node name="CharacterBody2D" type="CharacterBody2D" unique_id=1342459757]
+[sub_resource type="AtlasTexture" id="AtlasTexture_cxr5p"]
+atlas = ExtResource("3_kne1u")
+region = Rect2(32, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tdg3f"]
+atlas = ExtResource("3_kne1u")
+region = Rect2(64, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dtqjt"]
+atlas = ExtResource("3_kne1u")
+region = Rect2(96, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ncpa"]
+atlas = ExtResource("3_kne1u")
+region = Rect2(128, 0, 32, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tdg3f"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kne1u")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e80uo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cxr5p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tdg3f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dtqjt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ncpa")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dtqjt"]
+size = Vector2(30, 62.833336)
+
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=1342459757 groups=["player"]]
+position = Vector2(2.861023e-06, 0)
+scale = Vector2(1.5, 1.5)
 script = ExtResource("1_xhfnw")
-
-[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=1405343642]
-position = Vector2(-4.7683716e-07, -1.0000005)
-scale = Vector2(10, 10.000002)
-mesh = SubResource("CapsuleMesh_0rwas")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=202861296]
-position = Vector2(0, -1)
-shape = SubResource("CapsuleShape2D_xhfnw")
+bullet_scene = ExtResource("2_kne1u")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1116560445]
-zoom = Vector2(5, 5)
+zoom = Vector2(2, 2)
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=1707426479]
+position = Vector2(0, 0.6666667)
+sprite_frames = SubResource("SpriteFrames_tdg3f")
+animation = &"idle"
+frame_progress = 0.83519906
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1163725960]
+position = Vector2(0.3333311, 1.4166667)
+shape = SubResource("RectangleShape2D_dtqjt")
+
+[node name="Muzzle" type="Marker2D" parent="." unique_id=1446364091]
+position = Vector2(18.666664, 7.9999995)

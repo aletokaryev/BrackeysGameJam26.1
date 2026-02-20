@@ -1,24 +1,36 @@
 [gd_scene format=3 uid="uid://cxm0p30ntq7j6"]
 
+[ext_resource type="PackedScene" uid="uid://dyu5qvx2keiid" path="res://node_2d.tscn" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://333bmxrkjias" path="res://Player.tscn" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://bu7cbxcxfm3lv" path="res://ability_pickup.tscn" id="3_h2yge"]
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_ig7tw"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0xm2m"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ig7tw"]
-size = Vector2(215, 9)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h2yge"]
+bg_color = Color(0, 0.7176471, 0.039215688, 1)
 
 [node name="Main" type="Node2D" unique_id=222967998]
 
-[node name="Player" parent="." unique_id=1342459757 instance=ExtResource("1_ig7tw")]
-position = Vector2(7, -18)
+[node name="Node2D" parent="." unique_id=1772611759 instance=ExtResource("1_0xm2m")]
+position = Vector2(242, 121)
 
-[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=411088051]
+[node name="CharacterBody2D" parent="." unique_id=1342459757 node_paths=PackedStringArray("cooldown_bar") instance=ExtResource("1_ig7tw")]
+position = Vector2(309, 161)
+cooldown_bar = NodePath("../CanvasLayer/ShootCooldownBar")
 
-[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D" unique_id=2041334149]
-position = Vector2(97.49999, 0.49999976)
-scale = Vector2(214.99998, 8.999999)
-texture = SubResource("PlaceholderTexture2D_ig7tw")
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2083580746]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1770984295]
-position = Vector2(98, 0)
-shape = SubResource("RectangleShape2D_ig7tw")
+[node name="ShootCooldownBar" type="ProgressBar" parent="CanvasLayer" unique_id=896403978]
+offset_left = 1089.0
+offset_top = 625.0
+offset_right = 1093.0
+offset_bottom = 652.0
+scale = Vector2(12.6, 0.32)
+theme_override_styles/background = SubResource("StyleBoxFlat_0xm2m")
+theme_override_styles/fill = SubResource("StyleBoxFlat_h2yge")
+max_value = 1.0
+value = 1.0
+show_percentage = false
+
+[node name="GunPickup" parent="." unique_id=1644292294 instance=ExtResource("3_h2yge")]
+position = Vector2(520, 200)
