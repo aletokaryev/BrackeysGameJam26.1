@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b20tvi3nj0cxi"
-path="res://.godot/imported/pg_idle.png-62abe4fd16c059fe48e3c67a685eeecd.ctex"
+uid="uid://i4gtmflkjo4n"
+path="res://.godot/imported/TileSetCaverna(1).png-499b99e7433ed23dd25ebd3e621b4497.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/pg_idle.png"
-dest_files=["res://.godot/imported/pg_idle.png-62abe4fd16c059fe48e3c67a685eeecd.ctex"]
+source_file="res://assets/gia_fatti/TileSetCaverna(1).png"
+dest_files=["res://.godot/imported/TileSetCaverna(1).png-499b99e7433ed23dd25ebd3e621b4497.ctex"]
 
 [params]
 
