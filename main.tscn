@@ -3,6 +3,9 @@
 [ext_resource type="PackedScene" uid="uid://dyu5qvx2keiid" path="res://node_2d.tscn" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://333bmxrkjias" path="res://Player.tscn" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://bu7cbxcxfm3lv" path="res://ability_pickup.tscn" id="3_h2yge"]
+[ext_resource type="Texture2D" uid="uid://c1mauw6qwmhx6" path="res://assets/gia_fatti/pistolah.png" id="4_lquwl"]
+[ext_resource type="Texture2D" uid="uid://bwrdqy7rmhfbl" path="res://assets/gia_fatti/telecomando.png" id="5_7mycd"]
+[ext_resource type="PackedScene" uid="uid://cf1yam3o8ruyi" path="res://ability_ui.tscn" id="6_7mycd"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0xm2m"]
 
@@ -17,6 +20,7 @@ position = Vector2(242, 121)
 [node name="CharacterBody2D" parent="." unique_id=1342459757 node_paths=PackedStringArray("cooldown_bar") instance=ExtResource("1_ig7tw")]
 position = Vector2(309, 161)
 cooldown_bar = NodePath("../CanvasLayer/ShootCooldownBar")
+ability_ui_path = NodePath("../AbilityUi")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2083580746]
 
@@ -33,4 +37,12 @@ value = 1.0
 show_percentage = false
 
 [node name="GunPickup" parent="." unique_id=1644292294 instance=ExtResource("3_h2yge")]
-position = Vector2(520, 200)
+position = Vector2(829, 198)
+icon_texture = ExtResource("4_lquwl")
+
+[node name="AbilityPickpu" parent="." unique_id=487140725 instance=ExtResource("3_h2yge")]
+position = Vector2(465, 198)
+ability_name = "gravity_flip"
+icon_texture = ExtResource("5_7mycd")
+
+[node name="AbilityUi" parent="." unique_id=74830375 instance=ExtResource("6_7mycd")]

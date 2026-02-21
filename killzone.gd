@@ -1,9 +1,14 @@
 extends Area2D
 
-@export var respawn_point: NodePath
+@export var instant_kill: bool = true  # false = toglie 1 vita sola
 
+func _ready() -> void:
+	body_entered.connect(_on_body_entered)
 
-func _on_body_entered(body: Node2D) -> void:
+func _on_body_entered(body: Node) -> void:
 	if body.is_in_group("player"):
-		var spawn = get_node(respawn_point) as Node2D
-		body.global_position = spawn.global_position
+		if instant_kill:
+			body._die()
+		else:
+			if body.has_method("apply_damage"):
+				body.apply_damage(999)

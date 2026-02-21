@@ -44,10 +44,16 @@ animations = [{
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_snoku"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_6uiyg"]
+
 [node name="PISTRELO" type="CharacterBody2D" unique_id=1291906946]
+collision_layer = 4
+collision_mask = 3
 script = ExtResource("1_4mj3w")
 
 [node name="DetectionArea" type="Area2D" parent="." unique_id=222430813]
+collision_layer = 64
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=2042874285]
 shape = SubResource("CircleShape2D_4mj3w")
@@ -55,6 +61,15 @@ shape = SubResource("CircleShape2D_4mj3w")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1457818103]
 sprite_frames = SubResource("SpriteFrames_adray")
 animation = &"ali"
+frame_progress = 0.6175473
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=715784495]
 shape = SubResource("CircleShape2D_snoku")
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=535041011]
+collision_layer = 32
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1861753315]
+shape = SubResource("CircleShape2D_6uiyg")
+debug_color = Color(0.9515613, 0.20607981, 0.21820363, 0.41960785)

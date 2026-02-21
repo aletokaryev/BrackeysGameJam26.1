@@ -6,6 +6,7 @@
 
 [node name="ShiftableObject" type="Node2D" unique_id=1294844960]
 script = ExtResource("1_ce44h")
+glow_color = Color(0.54823035, 0.7193229, 0.93316776, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1487220900]
 

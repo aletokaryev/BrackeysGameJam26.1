@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://cf1yam3o8ruyi"]
+
+[ext_resource type="Texture2D" uid="uid://c1mauw6qwmhx6" path="res://assets/gia_fatti/pistolah.png" id="1_d2jrj"]
+[ext_resource type="Script" uid="uid://do4dcnyt0bsfe" path="res://ability_ui.gd" id="1_y8wd4"]
+[ext_resource type="Texture2D" uid="uid://bwrdqy7rmhfbl" path="res://assets/gia_fatti/telecomando.png" id="2_y8wd4"]
+
+[node name="AbilityUi" type="CanvasLayer" unique_id=74830375 groups=["ability_ui"]]
+script = ExtResource("1_y8wd4")
+
+[node name="HealthBar" type="ProgressBar" parent="." unique_id=1713937189]
+anchors_preset = -1
+anchor_left = 0.008
+anchor_top = 0.023000002
+anchor_right = 0.24900001
+anchor_bottom = 0.046000004
+offset_left = -0.14400005
+offset_top = 0.063999176
+offset_right = -0.23200989
+offset_bottom = 0.12799835
+size_flags_horizontal = 0
+show_percentage = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=648324112]
+anchors_preset = -1
+anchor_left = 0.013
+anchor_top = 0.074
+anchor_right = 0.102000006
+anchor_bottom = 0.148
+offset_left = 0.015999794
+offset_top = 0.031999588
+offset_right = -0.33600616
+offset_bottom = 0.063999176
+
+[node name="GunIcon" type="TextureRect" parent="HBoxContainer" unique_id=2042160597]
+layout_mode = 2
+texture = ExtResource("1_d2jrj")
+
+[node name="RemoteIcon" type="TextureRect" parent="HBoxContainer" unique_id=312038535]
+layout_mode = 2
+texture = ExtResource("2_y8wd4")

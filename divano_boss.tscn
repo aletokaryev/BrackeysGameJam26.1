@@ -1,0 +1,192 @@
+[gd_scene format=3 uid="uid://kfke5g2enru2"]
+
+[ext_resource type="Script" uid="uid://dbduvjx1qewrb" path="res://divano_boss.gd" id="1_0sg4j"]
+[ext_resource type="Texture2D" uid="uid://cls4yi86t38xm" path="res://assets/gia_fatti/DivanoF.png" id="1_leck4"]
+[ext_resource type="PackedScene" uid="uid://c3osforvn5f3l" path="res://pistrelo.tscn" id="2_frkld"]
+[ext_resource type="Texture2D" uid="uid://oj1di1ea2gor" path="res://assets/gia_fatti/DivanoUmano-Sheet.png" id="2_ujt3w"]
+[ext_resource type="Texture2D" uid="uid://453n11eym7ub" path="res://assets/gia_fatti/divanonondivano-Sheet.png" id="3_frkld"]
+[ext_resource type="PackedScene" uid="uid://coiin2ldffeen" path="res://slime_projectile.tscn" id="3_p0nsg"]
+[ext_resource type="AudioStream" uid="uid://d2hohp8vfg0yu" path="res://boss_music.wav" id="4_p0nsg"]
+[ext_resource type="Texture2D" uid="uid://dv4g5indxuedn" path="res://assets/gia_fatti/OmbraDivano.png" id="5_p0nsg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dtg8a"]
+atlas = ExtResource("2_ujt3w")
+region = Rect2(0, 0, 192, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wm22i"]
+atlas = ExtResource("2_ujt3w")
+region = Rect2(192, 0, 192, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ilp4t"]
+atlas = ExtResource("2_ujt3w")
+region = Rect2(384, 0, 192, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5xt06"]
+atlas = ExtResource("2_ujt3w")
+region = Rect2(576, 0, 192, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b8egw"]
+atlas = ExtResource("3_frkld")
+region = Rect2(0, 0, 192, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_of2pi"]
+atlas = ExtResource("3_frkld")
+region = Rect2(192, 0, 192, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e7j1r"]
+atlas = ExtResource("3_frkld")
+region = Rect2(384, 0, 192, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_syau4"]
+atlas = ExtResource("3_frkld")
+region = Rect2(576, 0, 192, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vxa4u"]
+atlas = ExtResource("1_leck4")
+region = Rect2(0, 0, 192, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hia7t"]
+atlas = ExtResource("2_ujt3w")
+region = Rect2(0, 0, 192, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hmmtv"]
+atlas = ExtResource("2_ujt3w")
+region = Rect2(192, 0, 192, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_niqjd"]
+atlas = ExtResource("2_ujt3w")
+region = Rect2(384, 0, 192, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fp2ck"]
+atlas = ExtResource("2_ujt3w")
+region = Rect2(576, 0, 192, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_j5u4s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dtg8a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wm22i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ilp4t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5xt06")
+}],
+"loop": false,
+"name": &"fase1",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b8egw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_of2pi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e7j1r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_syau4")
+}],
+"loop": false,
+"name": &"fase2",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vxa4u")
+}],
+"loop": false,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hia7t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hmmtv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_niqjd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fp2ck")
+}],
+"loop": false,
+"name": &"wake_up",
+"speed": 3.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vtj1e"]
+size = Vector2(190, 126)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xbsc3"]
+radius = 522.16187
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4fl2b"]
+size = Vector2(183, 121)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dwclt"]
+size = Vector2(192, 126)
+
+[node name="DivanoBoss" type="CharacterBody2D" unique_id=888767175]
+collision_layer = 4
+script = ExtResource("1_0sg4j")
+bat_scene = ExtResource("2_frkld")
+slime_projectile_scene = ExtResource("3_p0nsg")
+boss_music = ExtResource("4_p0nsg")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=531780772]
+sprite_frames = SubResource("SpriteFrames_j5u4s")
+animation = &"wake_up"
+
+[node name="Hitbox" type="CollisionShape2D" parent="." unique_id=1311252351]
+shape = SubResource("RectangleShape2D_vtj1e")
+
+[node name="DetectionArea" type="Area2D" parent="." unique_id=1230090330]
+collision_layer = 64
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=1030726000]
+shape = SubResource("CircleShape2D_xbsc3")
+
+[node name="HurtBox" type="Area2D" parent="." unique_id=2080820784]
+collision_layer = 32
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=1222832531]
+position = Vector2(-0.5, 0.5)
+shape = SubResource("RectangleShape2D_4fl2b")
+debug_color = Color(0.9873999, 0, 0.31841138, 0.41960785)
+
+[node name="ContactDamage" type="Area2D" parent="." unique_id=1224548338]
+collision_layer = 16
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ContactDamage" unique_id=407384450]
+shape = SubResource("RectangleShape2D_dwclt")
+debug_color = Color(0.12243629, 0.6330924, 0.3949783, 0.41960785)
+
+[node name="Shadow" type="Sprite2D" parent="." unique_id=777843791]
+position = Vector2(0, 74)
+texture = ExtResource("5_p0nsg")
+
+[node name="SpawnLeft" type="Marker2D" parent="." unique_id=1008560915]
+position = Vector2(-124, 0)
+
+[node name="SpawnCenter" type="Marker2D" parent="." unique_id=1269704851]
+position = Vector2(0, -88)
+
+[node name="SpawnRight" type="Marker2D" parent="." unique_id=2058675683]
+position = Vector2(128, 0)
+
+[node name="FloorRay" type="RayCast2D" parent="." unique_id=2054347585]
+target_position = Vector2(0, 600)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=305140949]

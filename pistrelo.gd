@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var detection_area: Area2D   = $DetectionArea
+@onready var hurtbox: Area2D = $Hurtbox
 
 @export var patrol_distance:   float = 96.0
 @export var patrol_speed:      float = 40.0
@@ -16,19 +17,27 @@ extends CharacterBody2D
 @export var bat_knockback_decay:   float = 600.0
 @export var player_knockback_force: float = 320.0
 
+# ── Vita ──────────────────────────────────────
+@export var max_health: int = 3
+@export var damage_to_player: int = 1       # danno per dive
+var health: int = 0
+
+# ── Flash quando colpito ──────────────────────
+@export var hit_flash_duration: float = 0.8
+var _hit_flash_timer: float = 0.0
+
 enum State { PATROL, CHARGE, DIVE, COOLDOWN }
 
 var state: State = State.PATROL
 
-var home_origin: Vector2 
-var patrol_dir: int = -1   
+var home_origin: Vector2
+var patrol_dir: int = -1
 
 var wiggle_phase: float = 0.0
 var charge_timer: float = 0.0
 var cooldown_timer: float = 0.0
 
 var dive_dir: Vector2 = Vector2.ZERO
-
 var bat_knockback: Vector2 = Vector2.ZERO
 
 var player_in_range: Node2D = null
@@ -36,6 +45,7 @@ var target_player:   Node2D = null
 
 
 func _ready() -> void:
+	health       = max_health
 	home_origin  = global_position
 	wiggle_phase = randf() * TAU
 
@@ -43,12 +53,35 @@ func _ready() -> void:
 	sprite.speed_scale = 1.0
 	sprite.flip_h = patrol_dir > 0
 
+	# Il bat deve stare nel gruppo "enemy" così i proiettili lo trovano
+	add_to_group("enemy")
+
 	detection_area.body_entered.connect(_on_detection_body_entered)
 	detection_area.body_exited.connect(_on_detection_body_exited)
+	$Hurtbox.area_entered.connect(_on_hurtbox_hit)
 
 
-# ══════════════════════════════════════════════
+func _on_hurtbox_hit(area: Area2D) -> void:
+	if area.is_in_group("player_bullet"):
+		var dmg = area.get("damage") if area.get("damage") != null else 1
+		take_damage(dmg)
+		area.queue_free()
+
+
 func _physics_process(delta: float) -> void:
+	if _hit_flash_timer > 0.0:
+		_hit_flash_timer -= delta
+	# Prima metà: rosso + flicker alfa, seconda metà: solo flicker alfa
+	var red := _hit_flash_timer > hit_flash_duration * 0.5
+	var blink := fmod(_hit_flash_timer, 0.2) > 0.1
+	if red:
+		sprite.modulate = Color(1, 0.3, 0.3, 0.3 if blink else 1.0)
+	else:
+		sprite.modulate = Color(1, 1, 1, 0.3 if blink else 1.0)
+	if _hit_flash_timer <= 0.0:
+		sprite.modulate = Color.WHITE
+
+	# Knockback bat
 	if bat_knockback != Vector2.ZERO:
 		velocity += bat_knockback
 		bat_knockback = bat_knockback.move_toward(Vector2.ZERO, bat_knockback_decay * delta)
@@ -70,6 +103,26 @@ func _physics_process(delta: float) -> void:
 	_handle_collisions()
 
 
+# ══════════════════════════════════════════════
+#  VITA E DANNO
+# ══════════════════════════════════════════════
+
+func take_damage(amount: int) -> void:
+	health -= amount
+	_hit_flash_timer = hit_flash_duration
+
+	if health <= 0:
+		_die()
+
+
+func _die() -> void:
+	# Qui puoi aggiungere: particelle, suono, drop, ecc.
+	queue_free()
+
+
+# ══════════════════════════════════════════════
+#  PATROL
+# ══════════════════════════════════════════════
 
 func _update_patrol(delta: float) -> void:
 	var offset_x := global_position.x - home_origin.x
@@ -103,7 +156,6 @@ func _check_for_player() -> void:
 		target_player = player_in_range
 		state         = State.CHARGE
 		charge_timer  = charge_time
-
 		sprite.speed_scale = 2.5
 
 		var dx := target_player.global_position.x - global_position.x
@@ -114,7 +166,6 @@ func _check_for_player() -> void:
 
 func _update_charge(delta: float) -> void:
 	velocity = Vector2.ZERO
-
 	charge_timer -= delta
 	if charge_timer <= 0.0:
 		if is_instance_valid(target_player):
@@ -133,7 +184,7 @@ func _start_dive() -> void:
 		dive_dir = Vector2(patrol_dir, 0.0)
 
 	if abs(dive_dir.x) > 0.01:
-		patrol_dir    = sign(dive_dir.x)
+		patrol_dir = sign(dive_dir.x)
 	sprite.flip_h      = patrol_dir > 0
 	sprite.speed_scale = 3.0
 
@@ -144,7 +195,6 @@ func _start_dive() -> void:
 func _update_dive(_delta: float) -> void:
 	if (global_position - home_origin).length() > patrol_distance * 3.0:
 		_end_dive()
-		return
 
 
 func _end_dive() -> void:
@@ -160,6 +210,10 @@ func _return_to_patrol() -> void:
 	velocity           = Vector2.ZERO
 
 
+# ══════════════════════════════════════════════
+#  COLLISIONI
+# ══════════════════════════════════════════════
+
 func _handle_collisions() -> void:
 	for i in range(get_slide_collision_count()):
 		var collision := get_slide_collision(i)
@@ -172,19 +226,34 @@ func _handle_collisions() -> void:
 				var hit_dir = (body.global_position - global_position).normalized()
 				if hit_dir == Vector2.ZERO:
 					hit_dir = Vector2(patrol_dir, 0.0)
-				hit_dir.y = clamp(hit_dir.y, -0.2, 0.5)
-				hit_dir = hit_dir.normalized()
+
+				# Knockback solo orizzontale → niente più volo
+				hit_dir.y = 0.0
+				hit_dir   = hit_dir.normalized()
+				if hit_dir == Vector2.ZERO:
+					hit_dir = Vector2(patrol_dir, 0.0)
+
+				# Danno al player
+				if body.has_method("apply_damage"):
+					body.apply_damage(damage_to_player)
+
+				# Knockback al player
 				if body.has_method("apply_knockback"):
 					body.apply_knockback(hit_dir * player_knockback_force)
+
+				# Knockback al bat
 				bat_knockback = -hit_dir * bat_knockback_speed
 
 				_end_dive()
 				break
-
 			else:
 				_end_dive()
 				break
 
+
+# ══════════════════════════════════════════════
+#  DETECTION
+# ══════════════════════════════════════════════
 
 func _on_detection_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
@@ -194,6 +263,5 @@ func _on_detection_body_entered(body: Node2D) -> void:
 func _on_detection_body_exited(body: Node2D) -> void:
 	if body == player_in_range:
 		player_in_range = null
-
 		if state == State.CHARGE:
 			_return_to_patrol()
